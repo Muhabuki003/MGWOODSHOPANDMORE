@@ -1,0 +1,2254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>MG Woodshop & More | Artisan Woodworking Houston</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --cream: #F5F1EB;
+    --warm-white: #FAF8F5;
+    --charcoal: #1A1A1A;
+    --deep-brown: #2C1810;
+    --wood: #8B4513;
+    --wood-light: #D4A574;
+    --accent: #C9A227;
+    --text-muted: #6B6B6B;
+    --border: rgba(26,26,26,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { 
+    scroll-behavior: smooth;
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--warm-white);
+    color: var(--charcoal);
+    overflow-x: hidden;
+    line-height: 1.6;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--cream); }
+  ::-webkit-scrollbar-thumb { background: var(--wood); border-radius: 4px; }
+
+  /* Grain Texture Overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* Navigation */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(250, 248, 245, 0.9);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  nav.scrolled {
+    padding: 12px 24px;
+    background: rgba(250, 248, 245, 0.98);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.08);
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--charcoal);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .nav-logo::before {
+    content: '◆';
+    color: var(--wood);
+    font-size: 1rem;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+    align-items: center;
+  }
+
+  .nav-links a {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    text-decoration: none;
+    position: relative;
+    padding: 8px 0;
+    transition: color 0.3s;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--wood);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .nav-links a:hover, .nav-links a.active {
+    color: var(--charcoal);
+  }
+
+  .nav-links a:hover::after, .nav-links a.active::after {
+    width: 100%;
+  }
+
+  .nav-cta {
+    background: var(--charcoal);
+    color: var(--warm-white) !important;
+    padding: 10px 20px !important;
+    border-radius: 100px;
+    transition: all 0.3s !important;
+    font-size: 0.8125rem !important;
+  }
+
+  .nav-cta::after { display: none !important; }
+
+  .nav-cta:hover {
+    background: var(--wood) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(139, 69, 19, 0.2);
+  }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 1001;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--charcoal);
+    transition: all 0.3s;
+    transform-origin: center;
+  }
+
+  .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* Pages */
+  .page { display: none; min-height: 100vh; }
+  .page.active { display: block; animation: fadeIn 0.6s ease; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Hero Section */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 55% 45%;
+    padding-top: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 48px 60px 64px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--wood);
+    margin-bottom: 24px;
+    padding: 8px 14px;
+    background: rgba(139, 69, 19, 0.08);
+    border-radius: 100px;
+    width: fit-content;
+    animation: slideIn 0.8s ease;
+    white-space: nowrap;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--charcoal);
+    margin-bottom: 20px;
+    letter-spacing: -0.02em;
+    word-break: break-word;
+    hyphens: manual;
+  }
+
+  .hero-title span {
+    display: block;
+    color: var(--wood);
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  .hero-subtitle {
+    font-size: 1.0625rem;
+    color: var(--text-muted);
+    max-width: 480px;
+    margin-bottom: 32px;
+    line-height: 1.7;
+  }
+
+  .hero-cta-group {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--charcoal);
+    color: var(--warm-white);
+    padding: 14px 28px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .btn-primary::before {
+    content: '→';
+    position: absolute;
+    right: 28px;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s;
+  }
+
+  .btn-primary:hover {
+    padding-right: 48px;
+    background: var(--wood);
+    transform: translateY(-2px);
+    box-shadow: 0 20px 40px rgba(139, 69, 19, 0.25);
+  }
+
+  .btn-primary:hover::before {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--charcoal);
+    padding: 14px 28px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    border-radius: 100px;
+    border: 2px solid var(--border);
+    cursor: pointer;
+    transition: all 0.3s;
+    white-space: nowrap;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--charcoal);
+    background: var(--charcoal);
+    color: var(--warm-white);
+  }
+
+  /* Stats Bar */
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--charcoal);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.6875rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+    white-space: nowrap;
+  }
+
+  /* Hero Visual */
+  .hero-visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+
+  .image-stack {
+    position: relative;
+    width: 100%;
+    height: 80%;
+  }
+
+  .image-main {
+    position: absolute;
+    width: 85%;
+    height: 70%;
+    top: 10%;
+    left: 0;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.15);
+    z-index: 3;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .image-secondary {
+    position: absolute;
+    width: 60%;
+    height: 50%;
+    bottom: 5%;
+    right: 0;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+    z-index: 2;
+    animation: float 6s ease-in-out infinite 1s;
+  }
+
+  .image-accent {
+    position: absolute;
+    width: 40%;
+    height: 35%;
+    top: 5%;
+    right: 10%;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    z-index: 1;
+    animation: float 6s ease-in-out infinite 2s;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+  }
+
+  .image-stack img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s;
+  }
+
+  .image-stack > div:hover img {
+    transform: scale(1.05);
+  }
+
+  /* Decorative Elements */
+  .deco-circle {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid var(--wood-light);
+    opacity: 0.3;
+  }
+
+  .deco-1 {
+    width: 300px;
+    height: 300px;
+    top: 10%;
+    right: -100px;
+    animation: rotate 20s linear infinite;
+  }
+
+  .deco-2 {
+    width: 200px;
+    height: 200px;
+    bottom: 20%;
+    left: -50px;
+    animation: rotate 15s linear infinite reverse;
+  }
+
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* Section Styling */
+  section {
+    padding: 100px 64px;
+    position: relative;
+  }
+
+  .section-header {
+    max-width: 700px;
+    margin-bottom: 64px;
+  }
+
+  .section-eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--wood);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-eyebrow::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--wood);
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--charcoal);
+    margin-bottom: 20px;
+    word-break: break-word;
+    hyphens: manual;
+  }
+
+  .section-title em {
+    color: var(--wood);
+    font-style: normal;
+    position: relative;
+  }
+
+  .section-title em::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: rgba(201, 162, 39, 0.3);
+    z-index: -1;
+  }
+
+  /* Services Grid - Bento Style */
+  .services-section {
+    background: var(--cream);
+  }
+
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .bento-card {
+    background: var(--warm-white);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--border);
+  }
+
+  .bento-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.08);
+  }
+
+  .bento-card.featured {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .bento-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .bento-card.featured .bento-image {
+    height: 100%;
+    position: absolute;
+    inset: 0;
+  }
+
+  .bento-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s;
+  }
+
+  .bento-card:hover .bento-image img {
+    transform: scale(1.08);
+  }
+
+  .bento-content {
+    padding: 24px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .bento-card.featured .bento-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(26,26,26,0.9));
+    color: var(--warm-white);
+    padding: 40px;
+  }
+
+  .bento-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--wood);
+    margin-bottom: 8px;
+  }
+
+  .bento-card.featured .bento-number {
+    color: var(--accent);
+  }
+
+  .bento-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    line-height: 1.3;
+    word-break: break-word;
+  }
+
+  .bento-card.featured .bento-title {
+    font-size: 1.75rem;
+  }
+
+  .bento-desc {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .bento-card.featured .bento-desc {
+    color: rgba(255,255,255,0.8);
+  }
+
+  /* Why Section */
+  .why-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding: 0;
+    min-height: 600px;
+  }
+
+  .why-visual {
+    position: relative;
+    background: var(--deep-brown);
+    overflow: hidden;
+  }
+
+  .why-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.9;
+    mix-blend-mode: luminosity;
+  }
+
+  .why-pattern {
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(201, 162, 39, 0.03) 10px,
+      rgba(201, 162, 39, 0.03) 20px
+    );
+  }
+
+  .why-content {
+    padding: 80px 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: var(--charcoal);
+    color: var(--warm-white);
+    position: relative;
+  }
+
+  .why-content .section-eyebrow {
+    color: var(--accent);
+  }
+
+  .why-content .section-eyebrow::before {
+    background: var(--accent);
+  }
+
+  .why-content .section-title {
+    color: var(--warm-white);
+  }
+
+  .why-content .section-title em::after {
+    background: rgba(201, 162, 39, 0.2);
+  }
+
+  .why-text {
+    color: rgba(255,255,255,0.7);
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: 40px;
+  }
+
+  .feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .feature-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 16px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: all 0.3s;
+  }
+
+  .feature-item:hover {
+    background: rgba(255,255,255,0.06);
+    transform: translateX(8px);
+  }
+
+  .feature-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(201, 162, 39, 0.15);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--accent);
+    font-size: 1rem;
+  }
+
+  .feature-text h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--warm-white);
+  }
+
+  .feature-text p {
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.5;
+  }
+
+  /* Process - Timeline */
+  .process-section {
+    background: var(--warm-white);
+  }
+
+  .process-timeline {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    position: relative;
+  }
+
+  .process-timeline::before {
+    content: '';
+    position: absolute;
+    top: 40px;
+    left: 15%;
+    right: 15%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--wood) 0%, var(--accent) 50%, var(--wood) 100%);
+    opacity: 0.2;
+  }
+
+  .process-step {
+    text-align: center;
+    position: relative;
+  }
+
+  .step-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--warm-white);
+    border: 2px solid var(--wood);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--wood);
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 0 0 12px var(--warm-white);
+  }
+
+  .step-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--charcoal);
+  }
+
+  .step-desc {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    padding: 0 20px;
+  }
+
+  /* Testimonials */
+  .testimonials-section {
+    background: var(--cream);
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .testimonial-card {
+    background: var(--warm-white);
+    padding: 32px;
+    border-radius: 20px;
+    position: relative;
+    border: 1px solid var(--border);
+    transition: all 0.4s;
+  }
+
+  .testimonial-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.08);
+  }
+
+  .testimonial-card::before {
+    content: '"';
+    position: absolute;
+    top: 16px;
+    left: 24px;
+    font-family: 'Syne', sans-serif;
+    font-size: 4rem;
+    color: var(--wood);
+    opacity: 0.1;
+    line-height: 1;
+    font-weight: 700;
+  }
+
+  .stars {
+    color: var(--accent);
+    font-size: 1rem;
+    margin-bottom: 16px;
+    letter-spacing: 2px;
+  }
+
+  .testimonial-text {
+    font-size: 0.9375rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    font-style: italic;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .author-avatar {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, var(--wood) 0%, var(--wood-light) 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--warm-white);
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  .author-info h5 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--charcoal);
+    margin-bottom: 2px;
+  }
+
+  .author-info span {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+  }
+
+  /* Areas - Tag Cloud */
+  .areas-section {
+    background: var(--charcoal);
+    color: var(--warm-white);
+    text-align: center;
+  }
+
+  .areas-section .section-eyebrow {
+    color: var(--accent);
+    justify-content: center;
+  }
+
+  .areas-section .section-eyebrow::before {
+    background: var(--accent);
+  }
+
+  .areas-section .section-title {
+    color: var(--warm-white);
+  }
+
+  .areas-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    max-width: 800px;
+    margin: 40px auto 0;
+  }
+
+  .area-tag {
+    padding: 10px 20px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 100px;
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.7);
+    transition: all 0.3s;
+    cursor: default;
+  }
+
+  .area-tag:hover {
+    background: var(--wood);
+    border-color: var(--wood);
+    color: var(--warm-white);
+    transform: translateY(-2px);
+  }
+
+  /* Gallery Page */
+  .gallery-hero {
+    padding: 140px 64px 60px;
+    text-align: center;
+    background: var(--cream);
+  }
+
+  .gallery-masonry {
+    padding: 40px 64px 100px;
+    columns: 4;
+    column-gap: 20px;
+  }
+
+  .gallery-item {
+    break-inside: avoid;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    background: var(--charcoal);
+  }
+
+  .gallery-item img {
+    width: 100%;
+    display: block;
+    transition: all 0.5s;
+  }
+
+  .gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(26,26,26,0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.4s;
+  }
+
+  .gallery-item:hover img {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+
+  .gallery-item:hover .gallery-overlay {
+    opacity: 1;
+    background: rgba(26,26,26,0.4);
+  }
+
+  .gallery-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--warm-white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--charcoal);
+    font-size: 1.25rem;
+    transform: scale(0);
+    transition: transform 0.3s 0.1s;
+  }
+
+  .gallery-item:hover .gallery-icon {
+    transform: scale(1);
+  }
+
+  /* Contact Page */
+  .contact-section {
+    display: grid;
+    grid-template-columns: 45% 55%;
+    min-height: 100vh;
+    padding-top: 80px;
+  }
+
+  .contact-info-panel {
+    background: var(--cream);
+    padding: 80px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .contact-methods {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .contact-method {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px;
+    background: var(--warm-white);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+
+  .contact-method:hover {
+    transform: translateX(8px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  }
+
+  .method-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--wood);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--warm-white);
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  .method-details h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .method-details a, .method-details span {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    text-decoration: none;
+    display: block;
+    transition: color 0.2s;
+    word-break: break-word;
+  }
+
+  .method-details a:hover {
+    color: var(--wood);
+  }
+
+  .contact-form-panel {
+    padding: 80px 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .form-card {
+    background: var(--warm-white);
+    padding: 48px;
+    border-radius: 24px;
+    border: 1px solid var(--border);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.05);
+  }
+
+  .form-header {
+    margin-bottom: 32px;
+  }
+
+  .form-header h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .form-header p {
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 0;
+  }
+
+  .form-group.full-width {
+    grid-column: 1 / -1;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.9375rem;
+    color: var(--charcoal);
+    background: var(--warm-white);
+    transition: all 0.3s;
+    outline: none;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--wood);
+    box-shadow: 0 0 0 4px rgba(139, 69, 19, 0.08);
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--charcoal);
+    color: var(--warm-white);
+    border: none;
+    border-radius: 12px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .submit-btn:hover {
+    background: var(--wood);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(139, 69, 19, 0.25);
+  }
+
+  /* History Page */
+  .history-hero {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(135deg, var(--deep-brown) 0%, var(--charcoal) 100%);
+    color: var(--warm-white);
+    position: relative;
+    overflow: hidden;
+    padding: 120px 24px;
+  }
+
+  .history-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .history-content {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+  }
+
+  .history-badge {
+    display: inline-block;
+    padding: 8px 20px;
+    background: rgba(201, 162, 39, 0.2);
+    border: 1px solid var(--accent);
+    border-radius: 100px;
+    font-size: 0.8125rem;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+
+  .history-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 700;
+    margin-bottom: 20px;
+    line-height: 1.1;
+    word-break: break-word;
+  }
+
+  .history-subtitle {
+    font-size: 1.125rem;
+    color: rgba(255,255,255,0.7);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  .generations-showcase {
+    padding: 100px 64px;
+    background: var(--warm-white);
+  }
+
+  .generations-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 64px;
+  }
+
+  .generation-card {
+    text-align: center;
+    padding: 40px 24px;
+    background: var(--cream);
+    border-radius: 24px;
+    border: 1px solid var(--border);
+    position: relative;
+    transition: all 0.4s;
+  }
+
+  .generation-card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+  }
+
+  .generation-card::before {
+    content: attr(data-gen);
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 56px;
+    height: 56px;
+    background: var(--wood);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--warm-white);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.125rem;
+    border: 4px solid var(--warm-white);
+  }
+
+  .gen-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 20px 0 12px;
+    color: var(--charcoal);
+  }
+
+  .gen-desc {
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-size: 0.9375rem;
+  }
+
+  .gen-year {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 6px 16px;
+    background: var(--wood);
+    color: var(--warm-white);
+    border-radius: 100px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+  /* Footer */
+  footer {
+    background: var(--charcoal);
+    color: var(--warm-white);
+    padding: 80px 64px 40px;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: 48px;
+    margin-bottom: 64px;
+  }
+
+  .footer-brand h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .footer-brand h3::before {
+    content: '◆';
+    color: var(--wood);
+  }
+
+  .footer-brand p {
+    color: rgba(255,255,255,0.6);
+    line-height: 1.7;
+    max-width: 280px;
+    font-size: 0.9375rem;
+  }
+
+  .footer-social {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .social-btn {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    transition: all 0.3s;
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+  .social-btn:hover {
+    background: var(--wood);
+    border-color: var(--wood);
+    color: var(--warm-white);
+    transform: translateY(-3px);
+  }
+
+  .footer-col h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 20px;
+    color: rgba(255,255,255,0.9);
+  }
+
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .footer-links a {
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+
+  .footer-links a:hover {
+    color: var(--accent);
+    padding-left: 4px;
+  }
+
+  .footer-contact p {
+    color: rgba(255,255,255,0.6);
+    font-size: 0.875rem;
+    margin-bottom: 6px;
+  }
+
+  .footer-contact a {
+    color: var(--warm-white);
+    text-decoration: none;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 12px;
+    transition: color 0.2s;
+    word-break: break-word;
+  }
+
+  .footer-contact a:hover {
+    color: var(--accent);
+  }
+
+  .footer-map {
+    height: 140px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 12px;
+    opacity: 0.8;
+  }
+
+  .footer-map iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    filter: grayscale(100%) invert(92%) contrast(83%);
+  }
+
+  .footer-bottom {
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8125rem;
+    color: rgba(255,255,255,0.4);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  /* Popup */
+  .popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(26,26,26,0.8);
+    backdrop-filter: blur(8px);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+    padding: 20px;
+  }
+
+  .popup-overlay.show {
+    display: flex;
+    opacity: 1;
+  }
+
+  .popup-box {
+    background: var(--warm-white);
+    padding: 48px;
+    border-radius: 24px;
+    max-width: 480px;
+    width: 100%;
+    position: relative;
+    transform: scale(0.9) translateY(20px);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .popup-overlay.show .popup-box {
+    transform: scale(1) translateY(0);
+  }
+
+  .popup-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: var(--cream);
+    border-radius: 50%;
+    font-size: 1.25rem;
+    color: var(--charcoal);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .popup-close:hover {
+    background: var(--wood);
+    color: var(--warm-white);
+    transform: rotate(90deg);
+  }
+
+  .popup-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    background: rgba(139, 69, 19, 0.1);
+    color: var(--wood);
+    border-radius: 100px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+  }
+
+  .popup-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--charcoal);
+    word-break: break-word;
+  }
+
+  .popup-text {
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    line-height: 1.6;
+    font-size: 0.9375rem;
+  }
+
+  .popup-form input {
+    width: 100%;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.9375rem;
+    transition: all 0.3s;
+  }
+
+  .popup-form input:focus {
+    border-color: var(--wood);
+    outline: none;
+  }
+
+  /* Animations */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* MOBILE RESPONSIVE */
+  @media (max-width: 1024px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+    .why-section { grid-template-columns: 1fr; }
+    .why-visual { height: 300px; }
+    .why-content { padding: 60px 48px; }
+    .contact-section { grid-template-columns: 1fr; }
+    .bento-grid { grid-template-columns: 1fr; }
+    .bento-card.featured { grid-column: span 1; grid-row: span 1; }
+    .bento-card.featured .bento-image { position: relative; height: 200px; }
+    .bento-card.featured .bento-content { position: relative; background: var(--warm-white); color: var(--charcoal); padding: 24px; }
+    .bento-card.featured .bento-number { color: var(--wood); }
+    .bento-card.featured .bento-desc { color: var(--text-muted); }
+    .process-timeline { grid-template-columns: 1fr; gap: 40px; }
+    .process-timeline::before { display: none; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .generations-grid { grid-template-columns: 1fr; max-width: 400px; margin: 48px auto 0; }
+    .gallery-masonry { columns: 2; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .nav-links { 
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 80%;
+      max-width: 300px;
+      height: 100vh;
+      background: var(--warm-white);
+      flex-direction: column;
+      padding: 100px 32px;
+      transition: right 0.4s;
+      gap: 24px;
+      box-shadow: -10px 0 40px rgba(0,0,0,0.1);
+    }
+    .nav-links.open { right: 0; }
+    .nav-links a { font-size: 1.125rem; }
+    .hamburger { display: flex; }
+    
+    section { padding: 60px 20px; }
+    .hero-content { padding: 100px 20px 60px; }
+    .hero-title { font-size: clamp(2rem, 8vw, 3rem); }
+    .hero-stats { gap: 24px; }
+    .stat-number { font-size: 1.75rem; }
+    
+    .gallery-masonry { columns: 1; padding: 20px; }
+    .gallery-hero { padding: 120px 20px 40px; }
+    
+    .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+    footer { padding: 60px 20px 32px; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+    
+    .form-grid { grid-template-columns: 1fr; }
+    .form-card { padding: 32px 24px; }
+    .contact-info-panel { padding: 60px 20px; }
+    .contact-form-panel { padding: 40px 20px; }
+    
+    .popup-box { padding: 32px 24px; }
+    .popup-title { font-size: 1.5rem; }
+    
+    .generations-showcase { padding: 60px 20px; }
+    .history-hero { padding: 100px 20px; min-height: auto; }
+    .history-title { font-size: clamp(2rem, 8vw, 3rem); }
+  }
+
+  @media (max-width: 480px) {
+    .hero-cta-group { flex-direction: column; width: 100%; }
+    .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+    .section-title { font-size: 1.75rem; }
+    .bento-title { font-size: 1.125rem; }
+    .step-title { font-size: 1.125rem; }
+    .areas-cloud { gap: 8px; }
+    .area-tag { padding: 8px 16px; font-size: 0.8125rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="mainNav">
+  <a class="nav-logo" onclick="showPage('home')">MG Woodshop</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a onclick="showPage('home')" class="active" id="nav-home">Home</a></li>
+    <li><a onclick="showPage('gallery')" id="nav-gallery">Gallery</a></li>
+    <li><a onclick="showPage('history')" id="nav-history">Our Story</a></li>
+    <li><a onclick="showPage('contact')" class="nav-cta" id="nav-contact">Get Quote</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</nav>
+
+<!-- HOME PAGE -->
+<div class="page active" id="page-home">
+  
+  <section class="hero">
+    <div class="deco-circle deco-1"></div>
+    <div class="deco-circle deco-2"></div>
+    
+    <div class="hero-content">
+      <div class="hero-badge">Houston's #1 Woodworker</div>
+      <h1 class="hero-title">Built by Hand.<br><span>Built to Last.</span></h1>
+      <p class="hero-subtitle">Custom cabinets, countertops, and woodworking crafted by three generations of the Guerrero family in Cypress, TX.</p>
+      <div class="hero-cta-group">
+        <button class="btn-primary" onclick="showPage('contact')">Get Free Quote</button>
+        <button class="btn-secondary" onclick="showPage('gallery')">View Work</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-number">244+</span>
+          <span class="stat-label">Projects</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">36</span>
+          <span class="stat-label">5-Star Reviews</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">3</span>
+          <span class="stat-label">Generations</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="hero-visual">
+      <div class="image-stack">
+        <div class="image-main">
+          <img src="https://framerusercontent.com/images/zPnJ6wrvrhbYcz8miRkKWNBPsQE.jpeg" alt="Custom Cabinets">
+        </div>
+        <div class="image-secondary">
+          <img src="https://framerusercontent.com/images/CqkqEoi2951ZBrHtIzIWQMuXrc.jpg" alt="Woodwork">
+        </div>
+        <div class="image-accent">
+          <img src="https://framerusercontent.com/images/uoLi2vgzX57NPsVXCNhHLasiEVM.jpg" alt="Countertops">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="services-section">
+    <div class="section-header reveal">
+      <p class="section-eyebrow">What We Do</p>
+      <h2 class="section-title">Our <em>Craft</em></h2>
+      <p style="color: var(--text-muted); font-size: 1.0625rem; max-width: 500px;">From concept to installation, we handle every detail with precision and care.</p>
+    </div>
+    
+    <div class="bento-grid">
+      <div class="bento-card featured reveal">
+        <div class="bento-image">
+          <img src="https://framerusercontent.com/images/ag7eTB7hdJJCYZaInNqYBGF6VI8.png" alt="Custom Cabinetry">
+        </div>
+        <div class="bento-content">
+          <p class="bento-number">01</p>
+          <h3 class="bento-title">Custom Cabinetry & Woodworking</h3>
+          <p class="bento-desc">Handcrafted cabinets designed for your space. We bring your unique visions to life with precision joinery.</p>
+        </div>
+      </div>
+      
+      <div class="bento-card reveal">
+        <div class="bento-image">
+          <img src="https://framerusercontent.com/images/oYncooMiqyvZP6QE8HLbSKs.png" alt="Countertops">
+        </div>
+        <div class="bento-content">
+          <p class="bento-number">02</p>
+          <h3 class="bento-title">Countertops & Laminate</h3>
+          <p class="bento-desc">Professional countertop installation for kitchens, bathrooms, and commercial spaces.</p>
+        </div>
+      </div>
+      
+      <div class="bento-card reveal">
+        <div class="bento-image">
+          <img src="https://framerusercontent.com/images/Ma30VmhTASVlMC2mOjxaieGg090.png" alt="Commercial">
+        </div>
+        <div class="bento-content">
+          <p class="bento-number">03</p>
+          <h3 class="bento-title">Commercial & Residential</h3>
+          <p class="bento-desc">From large-scale commercial projects to intimate residential renovations.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="why-section">
+    <div class="why-visual reveal">
+      <img src="https://framerusercontent.com/images/MpQ6Sb1auQR5KNBnxZSiwflcw.jpg" alt="Craftsmanship">
+      <div class="why-pattern"></div>
+    </div>
+    <div class="why-content">
+      <p class="section-eyebrow reveal">Why Choose Us</p>
+      <h2 class="section-title reveal">A Legacy of <em>Craft</em></h2>
+      <p class="why-text reveal">Family owned for generations. If you can picture it, we can build it. Our commitment to quality sets us apart.</p>
+      
+      <div class="feature-list">
+        <div class="feature-item reveal">
+          <div class="feature-icon">✓</div>
+          <div class="feature-text">
+            <h4>3 Generations of Experience</h4>
+            <p>A tradition of woodworking passed down through the Guerrero family.</p>
+          </div>
+        </div>
+        <div class="feature-item reveal">
+          <div class="feature-icon">✓</div>
+          <div class="feature-text">
+            <h4>Your Vision, Realized</h4>
+            <p>From blueprint to sketch, we turn ideas into stunning reality.</p>
+          </div>
+        </div>
+        <div class="feature-item reveal">
+          <div class="feature-icon">✓</div>
+          <div class="feature-text">
+            <h4>Serving Greater Houston</h4>
+            <p>Based in Cypress, serving Katy, Pearland, Sugar Land & beyond.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="process-section">
+    <div class="section-header" style="text-align: center; margin: 0 auto 64px;">
+      <p class="section-eyebrow" style="justify-content: center;">How It Works</p>
+      <h2 class="section-title">Simple <em>Process</em>, Great Results</h2>
+    </div>
+    
+    <div class="process-timeline">
+      <div class="process-step reveal">
+        <div class="step-icon">01</div>
+        <h3 class="step-title">Contact Us</h3>
+        <p class="step-desc">Fill out the form and we'll get back to you within 3 hours during business hours.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-icon">02</div>
+        <h3 class="step-title">Project Proposal</h3>
+        <p class="step-desc">We discuss scope, design preferences, materials, and your specific requests.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-icon">03</div>
+        <h3 class="step-title">Execution</h3>
+        <p class="step-desc">Once approved, we get to work — delivering craftsmanship you can be proud of.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials-section">
+    <div class="section-header" style="text-align: center; margin: 0 auto 64px;">
+      <p class="section-eyebrow" style="justify-content: center;">What Clients Say</p>
+      <h2 class="section-title">Real Reviews from <em>Real Clients</em></h2>
+    </div>
+    
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">MG Woodshop completely transformed our kitchen! They took my rough sketches and turned them into stunning, custom-built cabinets.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">S</div>
+          <div class="author-info">
+            <h5>Sarah P.</h5>
+            <span>Houston, TX</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="testimonial-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">We needed custom reception desks for our new office and MG Woodshop exceeded all expectations. Professional and efficient.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">D</div>
+          <div class="author-info">
+            <h5>David L.</h5>
+            <span>Cypress, TX</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="testimonial-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">Perfect laminate countertops for our bathroom remodel. The entire process was seamless. Great family business!</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">J</div>
+          <div class="author-info">
+            <h5>Jessica R.</h5>
+            <span>Katy, TX</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="areas-section">
+    <p class="section-eyebrow reveal">Service Areas</p>
+    <h2 class="section-title reveal">Serving <em>Greater Houston</em></h2>
+    
+    <div class="areas-cloud reveal">
+      <span class="area-tag">Cypress</span>
+      <span class="area-tag">Houston</span>
+      <span class="area-tag">Katy</span>
+      <span class="area-tag">Pearland</span>
+      <span class="area-tag">River Oaks</span>
+      <span class="area-tag">Sugar Land</span>
+      <span class="area-tag">Missouri City</span>
+      <span class="area-tag">Deer Park</span>
+      <span class="area-tag">Bellaire</span>
+      <span class="area-tag">West U</span>
+      <span class="area-tag">Woodlands</span>
+      <span class="area-tag">Piney Point</span>
+      <span class="area-tag">Rice Military</span>
+      <span class="area-tag">Memorial</span>
+      <span class="area-tag">Spring</span>
+      <span class="area-tag">Humble</span>
+      <span class="area-tag">Fresno</span>
+    </div>
+  </section>
+</div>
+
+<!-- GALLERY PAGE -->
+<div class="page" id="page-gallery">
+  <div class="gallery-hero">
+    <p class="section-eyebrow reveal" style="justify-content: center;">Portfolio</p>
+    <h1 class="section-title reveal">Crafted with <em>Care</em></h1>
+    <p style="color: var(--text-muted); margin-top: 16px;" class="reveal">Every project shows our commitment to quality.</p>
+  </div>
+  
+  <div class="gallery-masonry">
+    <div class="gallery-item reveal"><img src="new_1.jpg" alt="Work"><div class="gallery-overlay"><div class="gallery-icon">+</div></div></div>
+    <div class="gallery-item reveal"><img src="https://framerusercontent.com/images/CqkqEoi2951ZBrHtIzIWQMuXrc.jpg" alt="Cabinets"><div class="gallery-overlay"><div class="gallery-icon">+</div></div></div>
+    <div class="gallery-item reveal"><img src="new_2.jpg" alt="Woodwork"><div class="gallery-overlay"><div class="gallery-icon">+</div></div></div>
+    <div class="gallery-item reveal"><img src="https://framerusercontent.com/images/gnl7ioRwphsPaQUTUb6LvViEUxo.jpg" alt="Project"><div class="gallery-overlay"><div class="gallery-icon">+</div></div></div>
+    <div class="gallery-item reveal"><img src="new_3.jpg" alt="Custom"><div class="gallery-overlay"><div class="gallery-icon">+</div></div></div>
+    <div class="gallery-item reveal"><img src="https://framerusercontent.com/images/BMP2NCQM8FcAUATuatBI8nL4G3c.jpg" alt="Build"><div class="gallery-overlay"><div class="gallery-icon">+</div></div></div>
+    <div class="gallery-item reveal"><img src="new_4.jpg" alt="Install"><div class="gallery-overlay"><div class="gallery-icon">+</div></div></div>
+    <div class="gallery-item reveal"><img src="https://framerusercontent.com/images/sP0v0stPu4iqjxyMJRwMEtMVY.jpg" alt="Detail"><div class="gallery-overlay"><div class="gallery-icon">+</div></div></div>
+    <div class="gallery-item reveal"><img src="new_5.jpg" alt="Finish"><div class="gallery-overlay"><div class="gallery-icon">+</div></div></div>
+    <div class="gallery-item reveal"><img src="https://framerusercontent.com/images/N06doFhn8385hC0oS7rgiVKmG2I.jpg" alt="Kitchen"><div class="gallery-overlay"><div class="gallery-icon">+</div></div></div>
+    <div class="gallery-item reveal"><img src="new_6.jpg" alt="Bathroom"><div class="gallery-overlay"><div class="gallery-icon">+</div></div></div>
+    <div class="gallery-item reveal"><img src="https://framerusercontent.com/images/0QKU1By182r63qadEEllsnay9cM.jpg" alt="Office"><div class="gallery-overlay"><div class="gallery-icon">+</div></div></div>
+  </div>
+  
+  <div style="text-align: center; padding: 40px 0 100px;">
+    <button class="btn-primary" onclick="showPage('contact')">Start Your Project →</button>
+  </div>
+</div>
+
+<!-- CONTACT PAGE -->
+<div class="page" id="page-contact">
+  <div class="contact-section">
+    <div class="contact-info-panel">
+      <p class="section-eyebrow reveal">Let's Talk</p>
+      <h1 class="section-title reveal" style="font-size: 2.5rem;">Get a <em>Free Quote</em></h1>
+      <p style="color: var(--text-muted); font-size: 1.0625rem; margin-top: 16px;" class="reveal">We'll get back to you within 3 hours during business hours.</p>
+      
+      <div class="contact-methods">
+        <div class="contact-method reveal">
+          <div class="method-icon">📞</div>
+          <div class="method-details">
+            <h4>Martin Sr.</h4>
+            <a href="tel:+18322752902">(832) 275-2902</a>
+          </div>
+        </div>
+        <div class="contact-method reveal">
+          <div class="method-icon">📱</div>
+          <div class="method-details">
+            <h4>Martin Jr.</h4>
+            <a href="tel:+18324342921">(832) 434-2921</a>
+          </div>
+        </div>
+        <div class="contact-method reveal">
+          <div class="method-icon">✉</div>
+          <div class="method-details">
+            <h4>Email</h4>
+            <a href="mailto:Martin9703@gmail.com">Martin9703@gmail.com</a>
+          </div>
+        </div>
+        <div class="contact-method reveal">
+          <div class="method-icon">📍</div>
+          <div class="method-details">
+            <h4>Location</h4>
+            <span>Cypress, TX · Serving Houston</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="contact-form-panel">
+      <div class="form-card reveal">
+        <div class="form-header">
+          <h2>Send a Message</h2>
+          <p>Tell us about your project.</p>
+        </div>
+        
+        <form id="contactForm" action="https://formspree.io/f/mzdaylgj" method="POST">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" name="name" placeholder="John Smith" required>
+            </div>
+            <div class="form-group">
+              <label>Phone</label>
+              <input type="tel" name="phone" placeholder="(832) 000-0000">
+            </div>
+            <div class="form-group full-width">
+              <label>Email</label>
+              <input type="email" name="email" placeholder="you@email.com" required>
+            </div>
+            <div class="form-group full-width">
+              <label>Service Needed</label>
+              <select name="service">
+                <option value="">Select a service...</option>
+                <option>Custom Cabinetry</option>
+                <option>Countertops</option>
+                <option>Commercial</option>
+                <option>Residential</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group full-width">
+              <label>Project Location</label>
+              <input type="text" name="address" placeholder="Houston, TX">
+            </div>
+            <div class="form-group full-width">
+              <label>Project Details</label>
+              <textarea name="message" placeholder="Tell us about your vision..."></textarea>
+            </div>
+          </div>
+          <button type="submit" class="submit-btn">Send Message →</button>
+        </form>
+        
+        <div class="form-success" id="formSuccess" style="display: none; text-align: center; padding: 60px 0;">
+          <div style="font-size: 4rem; margin-bottom: 20px;">✓</div>
+          <h3 style="font-family: 'Syne', sans-serif; font-size: 1.5rem; margin-bottom: 12px;">Message Sent!</h3>
+          <p style="color: var(--text-muted);">We'll be in touch within 3 hours.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HISTORY PAGE -->
+<div class="page" id="page-history">
+  <div class="history-hero">
+    <div class="history-content">
+      <div class="history-badge reveal">Est. Generations Ago</div>
+      <h1 class="history-title reveal">The <em>Guerreros</em></h1>
+      <p class="history-subtitle reveal">Three generations of woodworking excellence, passed down through family tradition.</p>
+    </div>
+  </div>
+  
+  <section class="generations-showcase">
+    <div style="text-align: center; max-width: 600px; margin: 0 auto;" class="reveal">
+      <p class="section-eyebrow" style="justify-content: center;">Our Legacy</p>
+      <h2 class="section-title">Three Generations of <em>Excellence</em></h2>
+      <p style="color: var(--text-muted); margin-top: 20px; font-size: 1.0625rem;">From grandfather to father to son — baby Angela represents the future.</p>
+    </div>
+    
+    <div class="generations-grid">
+      <div class="generation-card reveal" data-gen="1st">
+        <h3 class="gen-title">The Grandfather</h3>
+        <p class="gen-desc">Laid the foundation with hard work and dedication, defining the family name for decades.</p>
+        <span class="gen-year">Founder</span>
+      </div>
+      <div class="generation-card reveal" data-gen="2nd">
+        <h3 class="gen-title">The Father</h3>
+        <p class="gen-desc">Expanded across Houston while keeping family spirit at the heart of every project.</p>
+        <span class="gen-year">Expansion</span>
+      </div>
+      <div class="generation-card reveal" data-gen="3rd">
+        <h3 class="gen-title">The Son & Future</h3>
+        <p class="gen-desc">Continuing the legacy today. Baby Angela represents the next chapter.</p>
+        <span class="gen-year">Today</span>
+      </div>
+    </div>
+  </section>
+  
+  <section style="padding: 100px 64px; background: var(--cream);">
+    <div style="max-width: 700px; margin: 0 auto; text-align: center;" class="reveal">
+      <p class="section-eyebrow" style="justify-content: center;">Our Philosophy</p>
+      <h2 class="section-title">More Than <em>Woodworking</em></h2>
+      <p style="color: var(--text-muted); font-size: 1.125rem; line-height: 1.8; margin-top: 32px;">
+        We make your vision reality. Whether detailed blueprint or rough sketch, we bring it to life. Every piece carries the Guerrero name — and that means something.
+      </p>
+      <button class="btn-primary" onclick="showPage('contact')" style="margin-top: 40px;">Work With Us</button>
+    </div>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer id="siteFooter">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h3>MG Woodshop</h3>
+      <p>Family-owned woodworking serving Greater Houston with three generations of craftsmanship.</p>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/mg__woodshop_more/" target="_blank" class="social-btn">IG</a>
+        <a href="https://www.facebook.com/share/1C5kzLphcM/" target="_blank" class="social-btn">FB</a>
+      </div>
+    </div>
+    
+    <div>
+      <h4>Navigation</h4>
+      <ul class="footer-links">
+        <li><a onclick="showPage('home')">Home</a></li>
+        <li><a onclick="showPage('gallery')">Gallery</a></li>
+        <li><a onclick="showPage('history')">Our Story</a></li>
+        <li><a onclick="showPage('contact')">Quote</a></li>
+      </ul>
+    </div>
+    
+    <div>
+      <h4>Contact</h4>
+      <div class="footer-contact">
+        <p>Martin Sr.</p>
+        <a href="tel:+18322752902">(832) 275-2902</a>
+        <p style="margin-top: 16px;">Martin Jr.</p>
+        <a href="tel:+18324342921">(832) 434-2921</a>
+      </div>
+    </div>
+    
+    <div>
+      <h4>Find Us</h4>
+      <div class="footer-contact">
+        <p>Cypress, Texas</p>
+        <a href="mailto:Martin9703@gmail.com">Martin9703@gmail.com</a>
+      </div>
+      <div class="footer-map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d111195.98494009388!2d-95.75948!3d29.96897!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8640d0a0e2b7b535%3A0x4a0f1e8b4e7b2e3a!2sCypress%2C%20TX!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus" width="100%" height="100%" style="border:0;" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer-bottom">
+    <p>© 2025 MG Woodshop & More LLC</p>
+    <p>Crafted in Cypress, TX</p>
+  </div>
+</footer>
+
+<!-- EXIT POPUP -->
+<div class="popup-overlay" id="popup">
+  <div class="popup-box">
+    <button class="popup-close" onclick="closePopup()">×</button>
+    <span class="popup-badge">Limited Time</span>
+    <h2 class="popup-title">Get a Free Quote?</h2>
+    <p class="popup-text">We'll reach out within 3 hours. No obligation.</p>
+    <form class="popup-form" id="popupForm" action="https://formspree.io/f/mzdaylgj" method="POST">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="tel" name="phone" placeholder="Phone Number">
+      <input type="email" name="email" placeholder="Email Address" required>
+      <input type="hidden" name="source" value="Exit Popup">
+      <button type="submit" class="submit-btn" style="margin-top: 8px;">Get My Quote →</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Navigation
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => {
+      p.classList.remove('active');
+      p.style.display = 'none';
+    });
+    const page = document.getElementById('page-' + name);
+    page.style.display = 'block';
+    setTimeout(() => page.classList.add('active'), 10);
+    
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    const navEl = document.getElementById('nav-' + name);
+    if (navEl) navEl.classList.add('active');
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById('navLinks').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('active');
+    
+    setTimeout(observeReveal, 100);
+  }
+
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+    document.getElementById('hamburger').classList.toggle('active');
+  }
+
+  // Scroll Effects
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('mainNav');
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Intersection Observer
+  function observeReveal() {
+    const reveals = document.querySelectorAll('.reveal:not(.visible)');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, index * 100);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    
+    reveals.forEach(el => observer.observe(el));
+  }
+  observeReveal();
+
+  // Exit Intent Popup
+  let popupShown = false;
+  document.addEventListener('mouseleave', (e) => {
+    if (e.clientY <= 0 && !popupShown && !localStorage.getItem('popupClosed')) {
+      popupShown = true;
+      document.getElementById('popup').classList.add('show');
+    }
+  });
+
+  function closePopup() {
+    document.getElementById('popup').classList.remove('show');
+    localStorage.setItem('popupClosed', 'true');
+  }
+
+  document.getElementById('popup').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) closePopup();
+  });
+
+  // Form Handling
+  document.getElementById('contactForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = this.querySelector('.submit-btn');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = 'Sending...';
+    btn.disabled = true;
+    
+    try {
+      const res = await fetch(this.action, {
+        method: 'POST',
+        body: new FormData(this),
+        headers: { 'Accept': 'application/json' }
+      });
+      
+      if (res.ok) {
+        this.style.display = 'none';
+        document.getElementById('formSuccess').style.display = 'block';
+      } else {
+        throw new Error('Failed');
+      }
+    } catch {
+      btn.innerHTML = originalText;
+      btn.disabled = false;
+      alert('Something went wrong. Please try calling us directly.');
+    }
+  });
+
+  // Popup Form
+  document.getElementById('popupForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = this.querySelector('.submit-btn');
+    btn.innerHTML = 'Sending...';
+    
+    try {
+      const res = await fetch(this.action, {
+        method: 'POST',
+        body: new FormData(this),
+        headers: { 'Accept': 'application/json' }
+      });
+      
+      if (res.ok) {
+        this.innerHTML = '<div style="text-align:center; padding: 20px 0;"><div style="font-size: 3rem; margin-bottom: 16px;">✓</div><h3 style="font-family: Syne, sans-serif; font-size: 1.5rem; margin-bottom: 8px;">Thanks!</h3><p>We\'ll call you within 3 hours.</p></div>';
+      }
+    } catch {
+      btn.innerHTML = 'Try Again';
+    }
+  });
+</script>
+
+</body>
+</html>
